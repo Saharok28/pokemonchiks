@@ -1,0 +1,120 @@
+body {
+    font-family: sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.search-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#pokemon-name-input {
+    padding: 10px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#search-button {
+    padding: 10px 15px;
+    background-color: #ffcb05; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#search-button:hover {
+    background-color: #c7a100;
+}
+
+.pokemon-info {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    min-height: 100px; 
+    text-align: center;
+}
+
+.pokemon-info img {
+    max-width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.pokemon-info button {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #3b4cca; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pokemon-info button:hover {
+    background-color: #2a3b9c;
+}
+
+#search-message {
+    color: red;
+    font-weight: bold;
+}
+
+.favorites-list {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+}
+
+.favorite-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.favorite-item:last-child {
+    border-bottom: none;
+}
+
+.favorite-item span {
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.favorite-item button {
+    padding: 5px 10px;
+    background-color: #e3350d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.favorite-item button:hover {
+    background-color: #c22b0b;
+}
