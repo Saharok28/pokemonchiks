@@ -8,6 +8,8 @@ const infoDiv = document.getElementById('pokemon-info');
 const favoritesDiv = document.getElementById('favorites-list');
 
 let favorites = loadFavorites();
+let currentPokemon = null;
+
 renderFavoritesList();
 
 searchBtn.addEventListener('click', async () => {
@@ -20,39 +22,42 @@ searchBtn.addEventListener('click', async () => {
     showMessage('Завантаження...');
     try {
         const data = await fetchPokemonByName(name);
+        currentPokemon = data;
+
         const isFav = favorites.some(p => p.id == data.id);
-        infoDiv.innerHTML = renderPokemonCard(data, isFav);
+        renderCurrentPokemon(data, isFav);
         showMessage('Знайдено!');
     } catch {
         showMessage('Покемон не знайдений', true);
     }
 });
 
-infoDiv.addEventListener('click', (e) => {
+infoDiv.addEventListener('click', async (e) => {
     if (e.target.classList.contains('toggle-favorite')) {
-        const id = +e.target.dataset.id;
-        const name = input.value.trim().toLowerCase();
+        if (!currentPokemon) return;
 
-        const isFav = favorites.some(p => p.id == id);
+        const isFav = favorites.some(p => p.id == currentPokemon.id);
         if (isFav) {
-            favorites = removeFavorite(favorites, id);
+            favorites = removeFavorite(favorites, currentPokemon.id);
         } else {
-            fetchPokemonByName(name).then(pokemon => {
-                const types = pokemon.types.map(t => t.type.name).join(', ');
-                const abilities = pokemon.abilities.map(a => a.ability.name).join(', ');
-                const item = {
-                    id: pokemon.id,
-                    name: pokemon.name,
-                    imageUrl: pokemon.sprites.front_default,
-                    types,
-                    weight: (pokemon.weight * 0.1).toFixed(1),
-                    abilities
-                };
-                favorites = addFavorite(favorites, item);
-                renderFavoritesList();
-            });
+            const types = currentPokemon.types.map(t => t.type.name).join(', ');
+            const abilities = currentPokemon.abilities.map(a => a.ability.name).join(', ');
+            const item = {
+                id: currentPokemon.id,
+                name: currentPokemon.name,
+                imageUrl: currentPokemon.sprites.front_default,
+                types,
+                weight: (currentPokemon.weight * 0.1).toFixed(1),
+                abilities
+            };
+            favorites = addFavorite(favorites, item);
         }
+
+        saveFavorites(favorites);
         renderFavoritesList();
+
+      
+        renderCurrentPokemon(currentPokemon, !isFav);
     }
 });
 
@@ -60,10 +65,20 @@ favoritesDiv.addEventListener('click', (e) => {
     if (e.target.classList.contains('remove-favorite')) {
         const id = +e.target.dataset.id;
         favorites = removeFavorite(favorites, id);
+        saveFavorites(favorites);
         renderFavoritesList();
+
+      
+        if (currentPokemon && currentPokemon.id === id) {
+            renderCurrentPokemon(currentPokemon, false);
+        }
     }
 });
 
 function renderFavoritesList() {
     favoritesDiv.innerHTML = renderFavorites(favorites);
+}
+
+function renderCurrentPokemon(pokemon, isFav) {
+    infoDiv.innerHTML = renderPokemonCard(pokemon, isFav);
 }
